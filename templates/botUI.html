@@ -21,7 +21,7 @@
 	<script type="text/javascript">
 		var homeBot = BotUI('home-demo');
 		homeBot.message.add({
-		  content: '你好！'
+		  content: '你好，我是小仙女！'
 		}).then(function () {
 		  return homeBot.message.add({
 		    delay: 1500,
@@ -44,6 +44,11 @@
 		    tutorial();
 		  }
 		  if(res.value == 'skip') {
+			homeBot.message.add({
+				delay: 1500,
+				type: 'embed',
+				content: '../static/img/face.jpg'
+		  	});
 		    end();
 		  }
 		});
@@ -55,7 +60,7 @@
 		  }).then(function () {
 		    return homeBot.message.add({
 		      delay: 1000,
-		      content: '你可以提出一些简单的问题，例如：'
+		      content: '例如：'
 		    });
 		  }).then(function () {
 		    return homeBot.message.add({
@@ -66,7 +71,7 @@
 		    return homeBot.action.text({
 		      delay: 800,
 		      action: {
-		        value: 'John Doe',
+		        value: '老王',
 		        placeholder: '填写你的名字'
 		      }
 		    });
@@ -75,26 +80,45 @@
 		      delay: 500,
 		      content: res.value + ' 是个好名字！'
 		    });
-		  }).then(function (res) {
-		    return homeBot.message.bot({
+		  })
+		  .then(function (res) {
+		    return homeBot.action.button({
 		      delay: 1400,
-		      content: '你也可以嵌入第三方的资源，例如：'
+		      action: [
+		      	{text: '看本好书', value: 'book'},
+		      	{text: '看个电影', value: 'movie'},
+		      	{text: '听首好歌', value: 'music'}
+		      ]
 		    });
 		  }).then(function (res) {
-		    return homeBot.message.add({
-		      delay: 1200,
-		      type: 'embed',
-		      content: './getData'
-		    });
+			  if(res.value == 'book'){
+				return homeBot.message.add({
+				  delay: 1200,
+				  type: 'embed',
+				  content: './getBookData'
+				});
+			  }else if(res.value == 'movie'){
+			  	return homeBot.message.add({
+				  delay: 1200,
+				  type: 'embed',
+				  content: './getMovieData'
+				});
+			  }else if(res.value == 'music'){
+			  	return homeBot.message.add({
+			  	  delay: 1200,
+				  type: 'embed',
+				  content: './getMusicData'
+			  	});
+			  }
 		  }).then(function (res) {
 		    return homeBot.message.bot({
 		      delay: 2500,
-		      content: '通过BotUI你还可以做更多的有趣的事情。'
+		      content: '本仙女还可以为你提供更有趣的服务。'
 		    });
 		  }).then(function (res) {
 		    return homeBot.message.bot({
 		      delay: 1000,
-		      content: '现在，你可以自己研究以下文档，开发出自己的聊天机器人。'
+		      content: '期待下次再见。'
 		    });
 		  }).then(end);
 		};
@@ -102,7 +126,7 @@
 		var end = function () {
 		  homeBot.message.add({
 		    delay: 1000,
-		    content: '!(book) [Read the docs](https:///docs.botui.org), see [examples](https:///examples.botui.org) or explore the code on !(github) [GitHub](https://github.com/moinism/botui)'
+		    content: '小仙女的最新状态请关注 !https://github.com/Ralph-Finn/HACK-B5'
 		  });
 		};
 
